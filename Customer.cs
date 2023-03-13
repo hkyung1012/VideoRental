@@ -42,7 +42,7 @@ namespace VideoRental
                         && daysRented > 1) frequentRenterPoints++;
 
                 // Show figures for this rental
-                result.AppendLine("\t" + movie.getTitle() + "\t" + thisAmount.ToString());
+                result.AppendFormat("{0} {1} {2} {3}{4}", "\t", movie.getTitle(), "\t", thisAmount.ToString(), "\n");
                 totalAmount += thisAmount;
             }
 
@@ -65,11 +65,11 @@ namespace VideoRental
                 double thisAmount = getAmount(movie, daysRented);
 
                 //출력형식 : (장르 제목 대여기간 가격)
-                result.AppendLine(movie.getPriceCode() + "\t" + movie.getTitle() + "\t" + daysRented + "\t" + thisAmount.ToString());
+                result.AppendFormat("{0} {1} {2} {3} {4} {5} {6}{7}", movie.getPriceCode().ToString(), "\t", movie.getTitle(), "\t", daysRented.ToString(), "\t", thisAmount.ToString(), "\n");
             }
             return result.ToString();
         }
-        public double getAmount(Movie movie, int daysRented)
+        private double getAmount(Movie movie, int daysRented)
         {
             double thisAmount = 0.0;
 
