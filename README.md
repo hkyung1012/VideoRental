@@ -30,3 +30,4 @@ Github에 올리실 때 코드 변경 과정이 잘 드러나도록 변경 테�
 - 함수명 변경: getName -> getCustomerName  
 - 함수명 변경: statemnet() -> printReceipt()
 - 중복 로직 추출하여 함수 생성
+- 영수증 출력 형식 수정(문자 간격)
