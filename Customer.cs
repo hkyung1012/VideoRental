@@ -28,39 +28,21 @@ namespace VideoRental
 
             for (; enumerator.MoveNext();)
             {
-                double thisAmount = 0.0;
                 Rental each = enumerator.Current;
+                Movie movie = each.getMovie();
+                int daysRented = each.getDaysRented();
 
-                switch (each.getMovie().getPriceCode())
-                {
-                    case Movie.REGULAR:
-                        thisAmount += 2.0;
-                        if (each.getDaysRented() > 2)
-                            thisAmount += (each.getDaysRented() - 2) * 1.5;
-                        break;
-                    case Movie.NEW_RELEASE:
-                        thisAmount += each.getDaysRented() * 3;
-                        break;
-
-                    case Movie.CHILDRENS:
-                        thisAmount += 1.5;
-                        if (each.getDaysRented() > 3)
-                            thisAmount += (each.getDaysRented() - 3) * 1.5;
-                        break;
-                    case Movie.COMEDY:
-                        thisAmount += 3.0;
-                        break;
-                }
+                double thisAmount = getAmount(movie, daysRented);
 
                 // Add frequent renter points
                 frequentRenterPoints++;
 
                 // Add bonus for a two day new release rental
-                if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE)
-                        && each.getDaysRented() > 1) frequentRenterPoints++;
+                if ((movie.getPriceCode() == Movie.NEW_RELEASE)
+                        && daysRented > 1) frequentRenterPoints++;
 
                 // Show figures for this rental
-                result.AppendLine("\t" + each.getMovie().getTitle() + "\t" + thisAmount.ToString());
+                result.AppendLine("\t" + movie.getTitle() + "\t" + thisAmount.ToString());
                 totalAmount += thisAmount;
             }
 
@@ -69,7 +51,6 @@ namespace VideoRental
 
             return result.ToString();
         }
-
         public string printReceiptList()
         {
             StringBuilder result = new StringBuilder();
@@ -77,36 +58,43 @@ namespace VideoRental
             IEnumerator<Rental> rentalList = customerRental.GetEnumerator();
             for (; rentalList.MoveNext() ;)
             {
-                double thisAmount = 0.0;
                 Rental each = rentalList.Current;
                 Movie movie = each.getMovie();
                 int daysRented = each.getDaysRented();
 
-                switch (movie.getPriceCode())
-                {
-                    case Movie.REGULAR:
-                        thisAmount += 2.0;
-                        if (daysRented > 2)
-                            thisAmount += (daysRented - 2) * 1.5;
-                        break;
-                    case Movie.NEW_RELEASE:
-                        thisAmount += daysRented * 3;
-                        break;
-                    case Movie.CHILDRENS:
-                        thisAmount += 1.5;
-                        if (daysRented > 3)
-                            thisAmount += (daysRented - 3) * 1.5;
-                        break;
-                    case Movie.COMEDY:
-                        thisAmount += 3.0;
-                        break;
-                }
+                double thisAmount = getAmount(movie, daysRented);
 
                 //출력형식 : (장르 제목 대여기간 가격)
                 result.AppendLine(movie.getPriceCode() + "\t" + movie.getTitle() + "\t" + daysRented + "\t" + thisAmount.ToString());
             }
             return result.ToString();
         }
+        public double getAmount(Movie movie, int daysRented)
+        {
+            double thisAmount = 0.0;
+
+            switch (movie.getPriceCode())
+            {
+                case Movie.REGULAR:
+                    thisAmount += 2.0;
+                    if (daysRented > 2)
+                        thisAmount += (daysRented - 2) * 1.5;
+                    break;
+                case Movie.NEW_RELEASE:
+                    thisAmount += daysRented * 3;
+                    break;
+                case Movie.CHILDRENS:
+                    thisAmount += 1.5;
+                    if (daysRented > 3)
+                        thisAmount += (daysRented - 3) * 1.5;
+                    break;
+                case Movie.COMEDY:
+                    thisAmount += 3.0;
+                    break;
+            }
+            return thisAmount;
+        }
+
         private string customerName;
         private List<Rental> customerRental = new List<Rental>();
     }
