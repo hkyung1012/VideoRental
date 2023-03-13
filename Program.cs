@@ -29,8 +29,8 @@ namespace VideoRental
             customer.addRental(new Rental( comedy1, 1 ));
             customer.addRental(new Rental( comedy2, 2 ));
 
-            Console.WriteLine(customer.statement());
             Console.WriteLine(customer.printReceipt());
+            Console.WriteLine(customer.printReceiptList());
         }
     }
 }

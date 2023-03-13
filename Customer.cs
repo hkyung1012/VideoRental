@@ -13,15 +13,15 @@ namespace VideoRental
         }
 
         public void addRental(Rental arg) { customerRental.Add(arg); }
-        public string getName() { return customerName; }
+        public string getCustomerName() { return customerName; }
 
-        public string statement()
+        public string printReceipt()
         {
             double totalAmount = 0.0;
             int frequentRenterPoints = 0;
             StringBuilder result = new StringBuilder();
 
-            result.AppendLine("Rental Record for" + getName());
+            result.AppendLine("Rental Record for" + getCustomerName());
 
 
             IEnumerator<Rental> enumerator = customerRental.GetEnumerator();
@@ -70,7 +70,7 @@ namespace VideoRental
             return result.ToString();
         }
 
-        public string printReceipt()
+        public string printReceiptList()
         {
             StringBuilder result = new StringBuilder();
 
